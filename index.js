@@ -13,11 +13,31 @@ passport.use(
   clientID: keys.googleClientID,
   clientSecret: keys.googleClientSecret,
   callbackURL: '/auth/google/callback'
-}, (accessToken) => {
-      console.log(accessToken)
+}, (accessToken, refreshToken, profile, done) => {
+      console.log('access token', accessToken)
+      console.log('refresh token', refreshToken)
+      console.log('profile:', profile)
     }
   )
-)
+);
+// this instance has code internally that refers it
+// to as a string of 'google'
+
+app.get(
+  '/auth/google',
+  passport.authenticate('google', {
+    scope: ['profile', 'email']
+  })
+);
+
+app.get('/auth/google/callback', passport.authenticate('google'))
+// this contains the code that they are going to use
+// google strategy is going to see that they have the code
+// and attempt to do this
+
+// we are asking google to give access to the user's profile
+// and their email
+
 // creates a new instance of GoogleStrategy passport
 // tells application we want to authenticate users with google
 
