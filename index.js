@@ -3,8 +3,10 @@
 const express = require('express');
 const mongoose = require('mongoose');
 const keys = require('./config/keys');
-require('./services/passport');
 require('./models/User');
+require('./services/passport');
+
+// we need to make sure our User model is defined before using passport ^^
 
 mongoose.connect(keys.mongoURI);
 const authRoutes = require('./routes/authRoutes');
