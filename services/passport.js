@@ -20,6 +20,8 @@ passport.deserializeUser((id, done) => {
   // user model instance added to the req object as req.user
 });
 
+// encodes the user_id inside of the cookie
+
 passport.use(
   new GoogleStrategy(
     {
