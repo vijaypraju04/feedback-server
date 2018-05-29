@@ -10,11 +10,24 @@ module.exports = app => {
     })
   );
 
-  app.get('/auth/google/callback', passport.authenticate('google'));
+  app.get(
+    '/auth/google/callback',
+    passport.authenticate('google'),
+    (req, res) => {
+      res.redirect('/surveys');
+      // res has a function attached to it called redirect
+    }
+  );
+  // passport.authenticate('google') is a middleware it's a function that
+  // takes the incoming request then further authenticates the user
+  // it authenticates by taking the code out of the URL and then fetches user profile
+  // then it calls the callback in our googlestrategy
+  // it then passes our request on to the next middleware
 
   app.get('/api/logout', (req, res) => {
     req.logout();
-    res.send(req.user);
+    res.redirect('/');
+    // res.send(req.user)
   });
 
   app.get('/api/current_user', (req, res) => {

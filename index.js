@@ -4,6 +4,7 @@ const express = require('express');
 const mongoose = require('mongoose');
 const cookieSession = require('cookie-session');
 const passport = require('passport');
+const bodyParser = require('body-parser');
 const keys = require('./config/keys');
 require('./models/User');
 require('./services/passport');
@@ -11,9 +12,11 @@ require('./services/passport');
 // we need to make sure our User model is defined before using passport ^^
 
 mongoose.connect(keys.mongoURI);
-const authRoutes = require('./routes/authRoutes');
 
 const app = express();
+
+app.use(bodyParser.json());
+// parses body and makes sure it's added to the incoming req.body object
 
 app.use(
   cookieSession({
@@ -26,7 +29,12 @@ app.use(
 app.use(passport.initialize());
 app.use(passport.session());
 
-authRoutes(app);
+// three middlewars intercepting requests
+
+// const authRoutes = require('./routes/authRoutes');
+// authRoutes(app);
+require('./routes/authRoutes')(app);
+require('./routes/billingRoutes')(app);
 
 // authRoutes(app);
 // require('./routes/authRoutes')(app);

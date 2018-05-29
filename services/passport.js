@@ -30,21 +30,21 @@ passport.use(
       callbackURL: '/auth/google/callback',
       proxy: true
     },
-    (accessToken, refreshToken, profile, done) => {
-      User.findOne({ googleId: profile.id }).then(existingUser => {
-        if (existingUser) {
-          // we already have a record with the given profile ID
-          done(null, existingUser);
-        } else {
-          // we don't have a user record with this ID, make a new record
-          new User({ googleId: profile.id })
-            // this is creating a mongoose instance (single record in our collection)
-            .save()
-            .then(user => done(null, user));
-          // async javascript when saving to database
-          // user instance is different than new User before saving to DB
-        }
-      });
+    async (accessToken, refreshToken, profile, done) => {
+      const existingUser = await User.findOne({ googleId: profile.id });
+
+      if (existingUser) {
+        // we already have a record with the given profile ID
+        done(null, existingUser);
+      } else {
+        // we don't have a user record with this ID, make a new record
+        const user = await new User({ googleId: profile.id }).save();
+        // this is creating a mongoose instance (single record in our collection)
+        // .then(user => done(null, user));
+        done(null, user);
+        // async javascript when saving to database
+        // user instance is different than new User before saving to DB
+      }
     }
   )
 );
