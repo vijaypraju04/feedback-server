@@ -15,6 +15,8 @@ mongoose.connect(keys.mongoURI);
 
 const app = express();
 
+// app.use accessing middlewares
+
 app.use(bodyParser.json());
 // parses body and makes sure it's added to the incoming req.body object
 
