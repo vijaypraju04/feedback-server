@@ -10,6 +10,16 @@ module.exports = app => {
       source: req.body.id
     });
 
-    console.log(charge);
+    req.user.credits += 5;
+    const user = await req.user.save();
+    // this is set up by passport allowing us to access
+    // current user
+
+    // user is making reference to the copy of the user we
+    // got back from the database
+    // req.user might be old/outdated
+
+    res.send(user);
+    // sending back our user to the front-end
   });
 };
