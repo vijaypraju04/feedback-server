@@ -41,6 +41,23 @@ require('./routes/billingRoutes')(app);
 // authRoutes(app);
 // require('./routes/authRoutes')(app);
 
+if (process.env.NODE_ENV === 'production') {
+  // Express will serve up production assets
+  // like our main.js file or main.css file
+  app.use(express.static('client/build'));
+  // check inside our client/build directory
+  // and see if file matches up with what we
+  // are looking for
+
+  // Express will serve up the index.html file
+  // if it does not recognize route
+  const path = require('path');
+  app.get('*', (req, res) => {
+    res.sendFile(path.resolve(__dirname, 'client', 'build', 'index.html'));
+  });
+}
+// IF WE ARE ON HEROKU ^^^
+
 const PORT = process.env.PORT || 5000;
 // runs locally if no environment variable defined
 // meaning heroku is not running it defaults to
