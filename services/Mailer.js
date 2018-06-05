@@ -12,6 +12,8 @@ class Mailer extends helper.Mail {
     this.recipients = this.formatAddresses(recipients);
 
     this.addContent(this.body);
+    this.addClickTracking();
+    this.addRecipients();
   }
 
   formatAddresses(recipients) {
@@ -19,6 +21,14 @@ class Mailer extends helper.Mail {
       return new helper.Email(email);
       // here we are formatting with email helper
     });
+  }
+
+  addClickTracking() {
+    const trackingSettings = new helper.TrackingSettings();
+    const clickTracking = new helper.ClickTracking(true, true);
+
+    trackingSettings.setClickTracking(clickTracking);
+    this.addTrackingSettings(trackingSettings);
   }
 }
 
