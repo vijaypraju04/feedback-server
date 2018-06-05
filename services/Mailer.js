@@ -14,6 +14,7 @@ class Mailer extends helper.Mail {
     this.addContent(this.body);
     this.addClickTracking();
     this.addRecipients();
+    // taking formatted list and registering it with email
   }
 
   formatAddresses(recipients) {
@@ -29,6 +30,14 @@ class Mailer extends helper.Mail {
 
     trackingSettings.setClickTracking(clickTracking);
     this.addTrackingSettings(trackingSettings);
+  }
+
+  addRecipients() {
+    const personalize = new helper.Personalization();
+    this.recipients.forEach(recipient => {
+      personalize.addTo(recipient);
+    });
+    this.addPersonalization(recipient);
   }
 }
 
