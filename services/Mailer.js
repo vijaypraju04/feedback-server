@@ -6,6 +6,7 @@ class Mailer extends helper.Mail {
   constructor({ subject, recipients }, content) {
     super();
     // destructuring subject and recipients off survey // object and content is html template function
+    this.sgApi = sendgrid(keys.sendGridKey);
     this.from_email = new helper.Email('no-reply@emaily.com');
     this.subject = subject;
     this.body = new helper.Content('text/html', content);
@@ -38,6 +39,17 @@ class Mailer extends helper.Mail {
       personalize.addTo(recipient);
     });
     this.addPersonalization(recipient);
+  }
+
+  async send() {
+    const request = this.sgApi.emptyRequest({
+      method: 'POST',
+      path: '/v3/mail/send',
+      body: this.toJSON()
+    });
+
+    const response = this.sgApi.API(request);
+    return response;
   }
 }
 
