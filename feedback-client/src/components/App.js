@@ -5,8 +5,10 @@ import * as actions from '../actions';
 import Landing from './Landing';
 import Header from './Header';
 import Dashboard from './Dashboard';
+import SurveyNew from './surveys/SurveyNew';
 
-const SurveyNew = () => <h2>SurveyNew</h2>;
+// const SurveyNew = () => <h2>SurveyNew</h2>;
+// dummy components before creating real ones
 
 class App extends Component {
   componentDidMount() {
