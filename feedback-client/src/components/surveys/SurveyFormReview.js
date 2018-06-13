@@ -1,3 +1,5 @@
+// SurveyFormReview shows users their form inputs for review
+
 import React from 'react';
 
 const SurveyReview = () => {
