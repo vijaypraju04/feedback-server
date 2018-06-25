@@ -11,7 +11,7 @@ require('./models/Survey');
 require('./services/passport');
 
 // we need to make sure our User model is defined before using passport ^^
-
+mongoose.Promise = global.Promise;
 mongoose.connect(keys.mongoURI);
 
 const app = express();

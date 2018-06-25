@@ -10,9 +10,15 @@ const surveyTemplate = require('../services/emailTemplates/surveyTemplate');
 const Survey = mongoose.model('surveys');
 
 module.exports = app => {
-  app.get('/api/surveys/yes', (req, res) => {
+  app.get('/api/surveys/:surveyId/yes', (req, res) => {
     res.send(
       'We appreciate your feedback and we are happy to hear that you enjoyed our product!'
+    );
+  });
+
+  app.get('/api/surveys/:surveyId/no', (req, res) => {
+    res.send(
+      'We appreciate your feedback and we are sorry to hear that you did not enjoy our product'
     );
   });
 
@@ -43,19 +49,14 @@ module.exports = app => {
           },
           {
             $inc: { [choice]: 1 },
-            $set: { 'recipients.$.responded': true }
+            $set: { 'recipients.$.responded': true },
+            lastResponded: new Date()
           }
         ).exec();
       })
       .value();
 
     res.send({});
-  });
-
-  app.get('/api/surveys/no', (req, res) => {
-    res.send(
-      'We appreciate your feedback and we are sorry to hear that you did not enjoy our product'
-    );
   });
 
   app.post('/api/surveys', requireLogin, requireCredits, async (req, res) => {
