@@ -14,6 +14,8 @@ require('./services/passport');
 mongoose.Promise = global.Promise;
 mongoose.connect(keys.mongoURI);
 
+// can paste above into node terminal to play around with mongoose queries
+
 const app = express();
 
 // app.use accessing middlewares
